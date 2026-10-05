@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Requests</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav>
+
+    <h2> Smart Blood Bank</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/inventory">Inventory</a>
+        <a href="/request-blood">Request Blood</a>
+        <a href="/requests">Requests</a>
+    </div>
+
+</nav>
+
+
+<main>
+
+    <h1>Blood Requests</h1>
+
+    <section class="panel">
+
+        {% if blood_requests %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hospital</th>
+                    <th>Blood Group</th>
+                    <th>Units</th>
+                    <th>Urgency</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for req in blood_requests %}
+
+                <tr>
+
+                    <td>
+                        #{{ req.id }}
+                    </td>
+
+                    <td>
+                        {{ req.hospital_name }}
+                    </td>
+
+                    <td>
+                        <strong>{{ req.blood_group }}</strong>
+                    </td>
+
+                    <td>
+                        {{ req.units_required }}
+                    </td>
+
+                    <td>
+
+                        {% if req.urgency == "CRITICAL" %}
+
+                            <span class="critical">
+                                🔴 CRITICAL
+                            </span>
+
+                        {% elif req.urgency == "URGENT" %}
+
+                            <span class="urgent">
+                                🟠 URGENT
+                            </span>
+
+                        {% else %}
+
+                            <span class="normal">
+                                🟢 NORMAL
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ req.location }}
+                    </td>
+
+                    <td>
+
+                        {% if req.status == "ALLOCATED" %}
+
+                            <span class="allocated">
+                                ✅ ALLOCATED
+                            </span>
+
+                        {% elif req.status == "PENDING" %}
+
+                            <span class="pending">
+                                ⏳ PENDING
+                            </span>
+
+                        {% else %}
+
+                            <span class="pending">
+                                {{ req.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ req.created_at }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+
+            <h3>No blood requests yet.</h3>
+
+            <p>
+                Hospital requests will appear here.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+</body>
+</html>

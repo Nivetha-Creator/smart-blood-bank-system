@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Blood Bank | Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <h2>Smart Blood Bank</h2>
+
+    <div class="nav-links">
+
+        <a href="/">Dashboard</a>
+
+        <a href="/inventory">Inventory</a>
+
+        <a href="/request-blood">Request Blood</a>
+
+        <a href="/requests">Requests</a>
+
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Toggle dark mode">
+            ☾
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<main>
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>Blood Bank Dashboard</h1>
+
+        <p>
+            Monitor blood inventory, emergency requests,
+            and allocation activity from one central dashboard.
+        </p>
+
+    </div>
+
+
+    <!-- ================= SUMMARY CARDS ================= -->
+
+    <div class="dashboard">
+
+        <div class="card">
+
+            <h3>Blood Banks</h3>
+
+            <p>{{ total_banks }}</p>
+
+            <small>
+                Registered facilities
+            </small>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Available Units</h3>
+
+            <p>{{ total_units }}</p>
+
+            <small>
+                Units currently available
+            </small>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Pending Requests</h3>
+
+            <p>{{ pending_requests }}</p>
+
+            <small>
+                Requests awaiting allocation
+            </small>
+
+        </div>
+
+
+        <div class="card emergency">
+
+            <h3>Critical Requests</h3>
+
+            <p>{{ critical_requests }}</p>
+
+            <small>
+                Emergency requirements
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= QUICK ACTIONS ================= -->
+
+    <section class="panel">
+
+        <h2>Quick Actions</h2>
+
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">
+
+            Access frequently used blood bank operations.
+
+        </p>
+
+
+        <div class="actions">
+
+            <a href="/request-blood" class="button">
+                Request Blood
+            </a>
+
+            <a href="/inventory" class="button">
+                Manage Inventory
+            </a>
+
+            <a href="/requests" class="button">
+                View Requests
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= INTELLIGENT ALLOCATION ================= -->
+
+    <section class="panel">
+
+        <h2>Intelligent Blood Allocation</h2>
+
+        <p style="color: var(--text-secondary); margin-bottom: 22px;">
+
+            Algorithm-based processing helps identify compatible
+            blood, prioritize emergency requests, and optimize
+            blood bank allocation.
+
+        </p>
+
+
+        <div class="dashboard"
+             style="grid-template-columns: repeat(4, 1fr);">
+
+
+            <!-- Compatibility -->
+
+            <div class="card">
+
+                <h3>Compatibility</h3>
+
+                <small>
+
+                    Identifies compatible donor blood groups
+                    based on the requested blood group.
+
+                </small>
+
+            </div>
+
+
+            <!-- FEFO -->
+
+            <div class="card">
+
+                <h3>FEFO</h3>
+
+                <small>
+
+                    Prioritizes blood units with the
+                    earliest expiry dates.
+
+                </small>
+
+            </div>
+
+
+            <!-- Priority Queue -->
+
+            <div class="card">
+
+                <h3>Priority Queue</h3>
+
+                <small>
+
+                    Processes critical and urgent
+                    requests before normal requests.
+
+                </small>
+
+            </div>
+
+
+            <!-- Nearest Bank -->
+
+            <div class="card">
+
+                <h3>Nearest Blood Bank</h3>
+
+                <small>
+
+                    Calculates geographical distance
+                    to identify nearby blood banks.
+
+                </small>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SYSTEM INFORMATION ================= -->
+
+    <section class="panel">
+
+        <h2>System Overview</h2>
+
+        <div class="dashboard"
+             style="grid-template-columns: repeat(3, 1fr);">
+
+
+            <div class="card">
+
+                <h3>Inventory Management</h3>
+
+                <small>
+
+                    Track blood groups, available units,
+                    blood banks, and expiry dates.
+
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Emergency Response</h3>
+
+                <small>
+
+                    Prioritize critical blood requests
+                    for faster processing.
+
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Decision Support</h3>
+
+                <small>
+
+                    Combines multiple algorithms to
+                    support efficient allocation.
+
+                </small>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

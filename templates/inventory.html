@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Blood Bank | Inventory</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <h2>Smart Blood Bank</h2>
+
+    <div class="nav-links">
+
+        <a href="/">Dashboard</a>
+
+        <a href="/inventory">Inventory</a>
+
+        <a href="/request-blood">Request Blood</a>
+
+        <a href="/requests">Requests</a>
+
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Toggle dark mode">
+            ☾
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>Blood Inventory</h1>
+
+        <p>
+            Monitor blood stock, expiry dates,
+            and availability across registered blood banks.
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="panel">
+
+        <h2>Search Blood Group</h2>
+
+        <p style="color: var(--text-secondary); margin-bottom: 18px;">
+
+            Search available inventory using the
+            blood group search algorithm.
+
+        </p>
+
+
+        <div class="search-box">
+
+            <select id="bloodGroupSearch">
+
+                <option value="">
+                    Select Blood Group
+                </option>
+
+                <option value="O-">O-</option>
+
+                <option value="O+">O+</option>
+
+                <option value="A-">A-</option>
+
+                <option value="A+">A+</option>
+
+                <option value="B-">B-</option>
+
+                <option value="B+">B+</option>
+
+                <option value="AB-">AB-</option>
+
+                <option value="AB+">AB+</option>
+
+            </select>
+
+
+            <button
+                type="button"
+                onclick="searchBlood()">
+
+                Search
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="searchResult"
+            class="result-card"
+            style="display: none;">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= ADD BLOOD BANK ================= -->
+
+    <section class="panel">
+
+        <h2>Add Blood Bank</h2>
+
+        <form action="/add-bank"
+              method="POST">
+
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Blood Bank Name"
+                required>
+
+
+            <input
+                type="text"
+                name="location"
+                placeholder="Location"
+                required>
+
+
+            <input
+                type="text"
+                name="contact"
+                placeholder="Contact Number">
+
+
+            <input
+                type="number"
+                name="latitude"
+                step="any"
+                placeholder="Latitude"
+                required>
+
+
+            <input
+                type="number"
+                name="longitude"
+                step="any"
+                placeholder="Longitude"
+                required>
+
+
+            <button type="submit">
+                Add Blood Bank
+            </button>
+
+        </form>
+
+
+        <p style="
+            margin-top: 12px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        ">
+
+            Location coordinates are used by the
+            nearest blood bank algorithm.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- ================= ADD STOCK ================= -->
+
+    <section class="panel">
+
+        <h2>Add Blood Stock</h2>
+
+        <form action="/add-inventory"
+              method="POST">
+
+
+            <select
+                name="blood_bank_id"
+                required>
+
+                <option value="">
+                    Select Blood Bank
+                </option>
+
+                {% for bank in blood_banks %}
+
+                <option value="{{ bank.id }}">
+
+                    {{ bank.name }} -
+                    {{ bank.location }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+
+            <select
+                name="blood_group"
+                required>
+
+                <option value="">
+                    Select Blood Group
+                </option>
+
+                <option value="O-">O-</option>
+
+                <option value="O+">O+</option>
+
+                <option value="A-">A-</option>
+
+                <option value="A+">A+</option>
+
+                <option value="B-">B-</option>
+
+                <option value="B+">B+</option>
+
+                <option value="AB-">AB-</option>
+
+                <option value="AB+">AB+</option>
+
+            </select>
+
+
+
+            <input
+                type="number"
+                name="units"
+                min="1"
+                placeholder="Number of Units"
+                required>
+
+
+
+            <label>
+                Expiry Date
+            </label>
+
+
+            <input
+                type="date"
+                name="expiry_date"
+                required>
+
+
+
+            <button type="submit">
+                Add Stock
+            </button>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ================= STOCK LEVEL LEGEND ================= -->
+
+    <section class="panel">
+
+        <h2>Stock Level Classification</h2>
+
+        <p style="
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+        ">
+
+            Current inventory is automatically classified
+            based on the number of available units.
+
+        </p>
+
+
+        <div class="actions">
+
+            <span class="stock-badge stock-healthy">
+                Healthy · 6+ units
+            </span>
+
+
+            <span class="stock-badge stock-moderate">
+                Moderate · 3–5 units
+            </span>
+
+
+            <span class="stock-badge stock-low">
+                Low · 1–2 units
+            </span>
+
+
+            <span class="stock-badge stock-critical">
+                Critical · 0 units
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CURRENT INVENTORY ================= -->
+
+    <section class="panel">
+
+        <h2>Current Inventory</h2>
+
+
+        {% if inventory %}
+
+
+        <div style="overflow-x: auto;">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Blood Bank</th>
+
+                        <th>Location</th>
+
+                        <th>Blood Group</th>
+
+                        <th>Units</th>
+
+                        <th>Stock Level</th>
+
+                        <th>Expiry Date</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in inventory %}
+
+                    <tr>
+
+
+                        <td>
+
+                            <strong>
+                                {{ item.blood_bank_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ item.location }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ item.blood_group }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ item.units }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if item.stock_level == "HEALTHY" %}
+
+                            <span class="stock-badge stock-healthy">
+                                Healthy
+                            </span>
+
+
+                            {% elif item.stock_level == "MODERATE" %}
+
+                            <span class="stock-badge stock-moderate">
+                                Moderate
+                            </span>
+
+
+                            {% elif item.stock_level == "LOW" %}
+
+                            <span class="stock-badge stock-low">
+                                Low
+                            </span>
+
+
+                            {% else %}
+
+                            <span class="stock-badge stock-critical">
+                                Critical
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ item.expiry_date }}
+                        </td>
+
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        {% else %}
+
+
+        <p class="empty">
+
+            No blood inventory available yet.
+
+        </p>
+
+
+        {% endif %}
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ================= SEARCH SCRIPT ================= -->
+
+<script>
+
+async function searchBlood() {
+
+    const bloodGroup =
+        document.getElementById(
+            "bloodGroupSearch"
+        ).value;
+
+
+    const resultBox =
+        document.getElementById(
+            "searchResult"
+        );
+
+
+    if (!bloodGroup) {
+
+        resultBox.style.display = "block";
+
+        resultBox.className =
+            "result-card error-result";
+
+        resultBox.innerHTML =
+            "<strong>Please select a blood group.</strong>";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/search-blood?blood_group="
+                + encodeURIComponent(bloodGroup)
+            );
+
+
+        const result =
+            await response.json();
+
+
+        resultBox.style.display = "block";
+
+
+        if (result.found) {
+
+            resultBox.className =
+                "result-card success-result";
+
+
+            resultBox.innerHTML = `
+
+                <h3>
+                    Blood Group: ${result.blood_group}
+                </h3>
+
+                <p style="margin-top: 8px;">
+                    <strong>Available Units:</strong>
+                    ${result.units}
+                </p>
+
+                <p style="margin-top: 5px;">
+                    <strong>Blood Bank:</strong>
+                    ${result.blood_bank_name}
+                </p>
+
+                <p style="margin-top: 5px;">
+                    <strong>Location:</strong>
+                    ${result.location}
+                </p>
+
+                <p style="margin-top: 5px;">
+                    <strong>Expiry Date:</strong>
+                    ${result.expiry_date}
+                </p>
+
+            `;
+
+        } else {
+
+            resultBox.className =
+                "result-card error-result";
+
+
+            resultBox.innerHTML = `
+
+                <strong>
+                    No available stock found
+                    for ${bloodGroup}.
+                </strong>
+
+            `;
+
+        }
+
+
+    } catch (error) {
+
+        resultBox.style.display = "block";
+
+        resultBox.className =
+            "result-card error-result";
+
+        resultBox.innerHTML = `
+
+            <strong>
+                Unable to search inventory.
+            </strong>
+
+            <p style="margin-top: 5px;">
+                Please make sure the server is running.
+            </p>
+
+        `;
+
+    }
+
+}
+
+</script>
+
+
+
+<!-- ================= THEME SCRIPT ================= -->
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+</body>
+
+</html>

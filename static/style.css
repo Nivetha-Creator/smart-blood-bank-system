@@ -1,0 +1,752 @@
+/* ==================================================
+   SMART BLOOD BANK
+   Modern Healthcare UI
+   Navy + Teal Theme
+   Light + Dark Mode
+   ================================================== */
+
+:root {
+    --primary: #0f766e;
+    --primary-dark: #115e59;
+    --primary-light: #ccfbf1;
+
+    --background: #f1f5f9;
+    --surface: #ffffff;
+    --surface-soft: #f8fafc;
+
+    --text: #172033;
+    --text-secondary: #64748b;
+    --border: #dbe3ec;
+
+    --success: #15803d;
+    --success-bg: #dcfce7;
+
+    --warning: #b45309;
+    --warning-bg: #fef3c7;
+
+    --danger: #dc2626;
+    --danger-bg: #fee2e2;
+
+    --blue: #2563eb;
+    --blue-light: #dbeafe;
+
+    --shadow:
+        0 4px 20px rgba(15, 23, 42, 0.07);
+
+    --radius: 12px;
+}
+
+
+/* ==================================================
+   DARK MODE
+   ================================================== */
+
+body.dark-mode {
+    --primary: #2dd4bf;
+    --primary-dark: #14b8a6;
+    --primary-light: #134e4a;
+
+    --background: #0b1120;
+    --surface: #111827;
+    --surface-soft: #1e293b;
+
+    --text: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+
+    --success: #4ade80;
+    --success-bg: #052e16;
+
+    --warning: #fbbf24;
+    --warning-bg: #451a03;
+
+    --danger: #f87171;
+    --danger-bg: #450a0a;
+
+    --blue: #60a5fa;
+    --blue-light: #172554;
+
+    --shadow:
+        0 4px 25px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ==================================================
+   GLOBAL
+   ================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+
+    min-height: 100vh;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+
+/* ==================================================
+   NAVIGATION
+   ================================================== */
+
+nav {
+    background: var(--surface);
+
+    color: var(--text);
+
+    padding: 16px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+
+    box-shadow:
+        0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+nav h2 {
+    margin: 0;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    color: var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+nav a {
+    color: var(--text-secondary);
+
+    text-decoration: none;
+
+    padding: 9px 13px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition: 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--primary);
+
+    background: var(--primary-light);
+}
+
+
+/* ==================================================
+   THEME TOGGLE
+   ================================================== */
+
+.theme-toggle {
+    display: inline-flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0 !important;
+
+    margin-left: 10px;
+
+    border-radius: 50%;
+
+    background: var(--surface-soft) !important;
+
+    color: var(--text) !important;
+
+    border: 1px solid var(--border) !important;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow: none !important;
+}
+
+.theme-toggle:hover {
+    background: var(--primary-light) !important;
+
+    color: var(--primary) !important;
+
+    transform: none !important;
+
+    box-shadow: none !important;
+}
+
+
+/* ==================================================
+   MAIN CONTENT
+   ================================================== */
+
+main {
+    max-width: 1200px;
+
+    margin: 35px auto;
+
+    padding: 0 24px;
+}
+
+h1 {
+    font-size: 30px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 20px;
+
+    font-weight: 650;
+
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+
+/* ==================================================
+   PAGE HEADER
+   ================================================== */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header p {
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+    margin-top: 5px;
+}
+
+
+/* ==================================================
+   DASHBOARD
+   ================================================== */
+
+.dashboard {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-top: 25px;
+}
+
+
+/* ==================================================
+   CARDS
+   ================================================== */
+
+.card {
+    background: var(--surface);
+
+    padding: 23px;
+
+    border-radius: var(--radius);
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.1);
+}
+
+.card p {
+    font-size: 30px;
+
+    font-weight: 700;
+
+    margin-top: 10px;
+
+    color: var(--primary);
+}
+
+.card small {
+    color: var(--text-secondary);
+
+    line-height: 1.6;
+}
+
+
+/* ==================================================
+   CRITICAL CARD
+   ================================================== */
+
+.emergency {
+    border-left: 4px solid var(--danger);
+}
+
+
+/* ==================================================
+   PANELS
+   ================================================== */
+
+.panel {
+    background: var(--surface);
+
+    padding: 26px;
+
+    margin-bottom: 22px;
+
+    border-radius: var(--radius);
+
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow);
+}
+
+
+/* ==================================================
+   BUTTONS
+   ================================================== */
+
+.actions {
+    margin-top: 25px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.button,
+button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--primary);
+
+    color: white;
+
+    padding: 11px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.button:hover,
+button:hover {
+    background: var(--primary-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 12px rgba(15, 118, 110, 0.25);
+}
+
+.button:active,
+button:active {
+    transform: translateY(0);
+}
+
+
+/* ==================================================
+   FORMS
+   ================================================== */
+
+form {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    align-items: center;
+}
+
+input,
+select {
+    padding: 11px 13px;
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+input::placeholder {
+    color: var(--text-secondary);
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px var(--primary-light);
+}
+
+select {
+    cursor: pointer;
+}
+
+
+/* ==================================================
+   TABLE
+   ================================================== */
+
+table {
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+th,
+td {
+    padding: 14px 16px;
+
+    text-align: left;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 14px;
+}
+
+th {
+    background: var(--surface-soft);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    font-weight: 700;
+}
+
+td {
+    color: var(--text);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr {
+    transition: background 0.15s ease;
+}
+
+tbody tr:hover {
+    background: var(--surface-soft);
+}
+
+
+/* ==================================================
+   STATUS
+   ================================================== */
+
+.critical {
+    color: var(--danger);
+
+    font-weight: 700;
+}
+
+.urgent {
+    color: var(--warning);
+
+    font-weight: 700;
+}
+
+.normal {
+    color: var(--success);
+
+    font-weight: 700;
+}
+
+.allocated {
+    color: var(--success);
+
+    font-weight: 700;
+}
+
+.pending {
+    color: var(--warning);
+
+    font-weight: 700;
+}
+
+
+/* ==================================================
+   STOCK BADGES
+   ================================================== */
+
+.stock-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.stock-healthy {
+    color: var(--success);
+
+    background: var(--success-bg);
+}
+
+.stock-moderate {
+    color: #a16207;
+
+    background: #fef9c3;
+}
+
+.stock-low {
+    color: var(--warning);
+
+    background: var(--warning-bg);
+}
+
+.stock-critical {
+    color: var(--danger);
+
+    background: var(--danger-bg);
+}
+
+
+/* ==================================================
+   SEARCH
+   ================================================== */
+
+.search-box {
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+
+.search-box input,
+.search-box select {
+    min-width: 200px;
+}
+
+
+/* ==================================================
+   RESULT CARDS
+   ================================================== */
+
+.result-card {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+}
+
+.success-result {
+    border-left: 4px solid var(--success);
+}
+
+.error-result {
+    border-left: 4px solid var(--danger);
+}
+
+
+/* ==================================================
+   EMPTY STATE
+   ================================================== */
+
+.empty {
+    color: var(--text-secondary);
+
+    text-align: center;
+
+    padding: 35px 20px;
+}
+
+
+/* ==================================================
+   MOBILE
+   ================================================== */
+
+@media (max-width: 1000px) {
+
+    .dashboard {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    nav {
+        padding: 15px 20px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    nav {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    nav div {
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        margin: 0;
+    }
+
+    main {
+        margin: 25px auto;
+
+        padding: 0 15px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    form {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    input,
+    select,
+    form button {
+        width: 100%;
+    }
+
+    table {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: nowrap;
+    }
+}
+
+
+/* ==================================================
+   DARK MODE DETAILS
+   ================================================== */
+
+body.dark-mode th {
+    background: var(--surface-soft);
+}
+
+body.dark-mode input,
+body.dark-mode select {
+    color-scheme: dark;
+}
